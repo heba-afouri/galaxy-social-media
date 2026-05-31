@@ -1,0 +1,12 @@
+{% extends "posts/post_base.html" %}
+
+{% block title %}Post by @{{ post.user.username }} — Star Social{% endblock %}
+
+{% block post_body %}
+<div style="max-width: 680px; margin: 0 auto;">
+    <a href="{% url 'posts:all' %}" class="text-cyan mb-2" style="display: inline-block; font-size: 0.85rem;">
+        <i class="fas fa-arrow-left"></i> Back to Cosmic Feed
+    </a>
+    {% include "posts/_post.html" %}
+</div>
+{% endblock %}

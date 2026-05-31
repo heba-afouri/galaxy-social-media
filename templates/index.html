@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container center-wrap">
+    <div class="space-card text-center" style="max-width: 720px; padding: 48px;">
+
+        <span class="eyebrow">The cosmic social network</span>
+        <h1 class="heading text-gradient mt-2" style="font-size: 2.8rem;">
+            Welcome to Star Social
+        </h1>
+
+        <p class="text-muted mt-2 mb-3" style="font-size: 1.05rem; max-width: 540px; margin-left: auto; margin-right: auto;">
+            Connect with galaxies, share your thoughts, and explore the universe of ideas.
+        </p>
+
+        <div class="flex items-center gap-md" style="justify-content: center;">
+            {% if user.is_authenticated %}
+                <a href="{% url 'posts:all' %}" class="btn btn-cyber">
+                    <i class="fas fa-rocket"></i> Go to Feed
+                </a>
+                <a href="{% url 'groups:all' %}" class="btn btn-ghost">
+                    <i class="fas fa-compass"></i> Explore Galaxies
+                </a>
+            {% else %}
+                <a href="{% url 'accounts:signup' %}" class="btn btn-cyber">
+                    <i class="fas fa-rocket"></i> Get Started
+                </a>
+                <a href="{% url 'groups:all' %}" class="btn btn-ghost">
+                    <i class="fas fa-compass"></i> Explore Galaxies
+                </a>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

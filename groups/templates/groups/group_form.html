@@ -1,0 +1,22 @@
+{% extends "groups/group_base.html" %}
+{% load bootstrap4 %}
+
+{% block title %}{% if form.instance.pk %}Edit Galaxy{% else %}New Galaxy{% endif %} — Star Social{% endblock %}
+
+{% block pregroup %}
+<div class="center-wrap" style="min-height: 50vh;">
+    <div class="space-card" style="width: 100%; max-width: 560px; padding: 36px;">
+        <h2 class="heading text-gradient text-center mb-3">
+            {% if form.instance.pk %}Edit Galaxy{% else %}Launch New Galaxy{% endif %}
+        </h2>
+        <form method="POST">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button type="submit" class="btn btn-cyber btn-block mt-2">
+                <i class="fas fa-rocket"></i>
+                {% if form.instance.pk %}Save Changes{% else %}Create Galaxy{% endif %}
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "groups/group_base.html" %}
+
+{% block title %}{{ group.name }} — Star Social{% endblock %}
+
+{% block pregroup %}
+<div class="layout-2col">
+
+    <!-- Left: group info + actions -->
+    <aside class="sticky-side">
+        <div class="space-card text-center">
+            <h2 class="heading text-gradient mb-1" style="font-size: 1.5rem;">{{ group.name|upper }}</h2>
+            <div class="text-muted mb-3" style="font-size: 0.88rem;">
+                {{ group.description|default:"No cosmic description available." }}
+            </div>
+
+            <span class="badge mb-2"><i class="fas fa-users"></i> {{ group.members.count }} Active Members</span>
+            <div class="text-dim mb-3" style="font-size: 0.78rem;">
+                <i class="fas fa-user-astronaut"></i> Owned by @{{ group.owner.username|default:"—" }}
+            </div>
+
+            <hr class="divider">
+            <span class="eyebrow">Galaxy Actions</span>
+
+            <div class="mt-2">
+                {% if user == group.owner %}
+                    <a href="{% url 'groups:update' slug=group.slug %}" class="btn btn-ghost btn-block mb-1">
+                        <i class="fas fa-pen"></i> Edit Galaxy
+                    </a>
+                    <a href="{% url 'groups:delete' slug=group.slug %}" class="btn btn-danger btn-block">
+                        <i class="fas fa-trash-alt"></i> Delete Galaxy
+                    </a>
+                {% elif user in group.members.all %}
+                    <a href="{% url 'groups:leave' slug=group.slug %}" class="btn btn-danger btn-block">
+                        <i class="fas fa-sign-out-alt"></i> Leave Galaxy
+                    </a>
+                {% else %}
+                    <a href="{% url 'groups:join' slug=group.slug %}" class="btn btn-cyber btn-block">
+                        <i class="fas fa-door-open"></i> Join Galaxy
+                    </a>
+                {% endif %}
+                <a href="{% url 'groups:all' %}" class="text-magenta mt-2" style="display: inline-block; font-size: 0.85rem; font-weight: 600;">
+                    <i class="fas fa-arrow-left"></i> Back to Galaxies
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Right: timeline -->
+    <main>
+        <h4 class="heading text-gradient mb-3">Galaxy Timeline</h4>
+        {% for post in group.posts.all %}
+            {% include "posts/_post.html" %}
+        {% empty %}
+            <div class="space-card empty-state">
+                <i class="fas fa-satellite"></i>
+                <p>The nebula is quiet. No transmissions broadcast in this galaxy yet.</p>
+            </div>
+        {% endfor %}
+    </main>
+
+</div>
+{% endblock %}

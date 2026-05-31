@@ -1,0 +1,41 @@
+<article class="space-card post is-hoverable">
+    <div class="post__head">
+        <div class="post__author">
+            <span class="avatar avatar-md">{{ post.user.username|first }}</span>
+            <div class="post__meta">
+                <a href="{% url 'posts:for_user' username=post.user.username %}" class="post__user">
+                    @{{ post.user.username }}
+                </a>
+                <div class="post__sub">
+                    {{ post.created_at|timesince }} ago
+                    {% if post.group %}
+                        · in <a href="{% url 'groups:single' slug=post.group.slug %}" class="text-magenta">{{ post.group.name }}</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if user.is_authenticated and post.user == user %}
+            <span class="flex gap-sm">
+                <a href="{% url 'posts:update' pk=post.pk %}" class="post__action" title="Edit post">
+                    <i class="fas fa-pen"></i>
+                </a>
+                <a href="{% url 'posts:delete' pk=post.pk %}" class="post__action danger" title="Delete post">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+            </span>
+        {% endif %}
+    </div>
+
+    <div class="post__body">{{ post.message_html|safe }}</div>
+
+    <div class="post__foot">
+        <a href="{{ post.get_absolute_url }}" class="post__action">
+            <i class="fas fa-up-right-from-square"></i> View
+        </a>
+        {% if post.group %}
+            <a href="{% url 'groups:single' slug=post.group.slug %}" class="post__action">
+                <i class="fas fa-satellite"></i> Galaxy
+            </a>
+        {% endif %}
+    </div>
+</article>

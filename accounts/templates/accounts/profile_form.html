@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block title %}Edit Profile — Star Social{% endblock %}
+
+{% block content %}
+<div class="container center-wrap">
+    <div class="space-card" style="width: 100%; max-width: 460px; padding: 40px;">
+        <h2 class="heading text-gradient text-center mb-3" style="font-size: 1.7rem;">Edit Profile</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button type="submit" class="btn btn-cyber btn-block mt-2">
+                <i class="fas fa-floppy-disk"></i> Save Changes
+            </button>
+        </form>
+        <p class="text-center mt-3">
+            <a href="{% url 'posts:for_user' username=user.username %}" class="text-dim" style="font-size: 0.85rem;">Cancel</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

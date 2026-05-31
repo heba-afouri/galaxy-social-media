@@ -1,0 +1,42 @@
+{% extends "posts/post_base.html" %}
+
+{% block title %}Cosmic Feed — Star Social{% endblock %}
+
+{% block post_body %}
+<div class="layout-2col">
+
+    <aside class="sticky-side">
+        <div class="space-card text-center">
+            {% if user.is_authenticated %}
+                <span class="avatar avatar-lg" style="margin: 0 auto 14px;">{{ user.username|first }}</span>
+                <h4 class="heading text-gradient mb-0">@{{ user.username }}</h4>
+                <p class="text-muted mb-3" style="font-size: 0.85rem;">Welcome to your space station</p>
+                <a href="{% url 'posts:create' %}" class="btn btn-cyber btn-block">
+                    <i class="fas fa-plus"></i> New Post
+                </a>
+            {% else %}
+                <h5 class="heading text-cyan mb-2">Join Our Galaxy</h5>
+                <p class="text-muted mb-3" style="font-size: 0.85rem;">
+                    Log in to share your thoughts with the universe.
+                </p>
+                <a href="{% url 'accounts:login' %}" class="btn btn-cyber btn-block">
+                    <i class="fas fa-sign-in-alt"></i> Get Started
+                </a>
+            {% endif %}
+        </div>
+    </aside>
+
+    <main>
+        <h3 class="heading text-gradient mb-3">Cosmic Feed</h3>
+        {% for post in post_list %}
+            {% include "posts/_post.html" %}
+        {% empty %}
+            <div class="space-card empty-state">
+                <i class="fas fa-meteor"></i>
+                <p>The universe is quiet... no posts yet.</p>
+            </div>
+        {% endfor %}
+    </main>
+
+</div>
+{% endblock %}

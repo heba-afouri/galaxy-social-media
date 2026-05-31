@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Star Social{% endblock %}</title>
+
+    <link rel="icon" type="image/svg+xml" href="{% static 'simplesocial/favicon.svg' %}">
+
+    <!-- مكتبة الأيقونات والخطوط (مستضافة محلياً، بلا طلبات خارجية) -->
+    <link rel="stylesheet" href="{% static 'simplesocial/vendor/fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'simplesocial/vendor/fonts/orbitron.css' %}">
+    <link rel="stylesheet" href="{% static 'simplesocial/css/master.css' %}">
+</head>
+<body>
+
+    <!-- خلفية المجرّة المتحركة -->
+    <canvas id="canvas"></canvas>
+
+    <nav class="nav">
+        <a class="nav__brand text-gradient" href="{% url 'home' %}">
+            <i class="fas fa-satellite-dish"></i> STAR SOCIAL
+        </a>
+
+        <div class="nav__links">
+            <a class="nav__link" href="{% url 'posts:all' %}">Feed</a>
+            <a class="nav__link" href="{% url 'groups:all' %}">Groups</a>
+        </div>
+
+        <div class="nav__actions">
+            <form class="nav__search" method="GET" action="{% url 'groups:all' %}">
+                <input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Search galaxies">
+                <button type="submit" aria-label="Search"><i class="fas fa-search"></i></button>
+            </form>
+
+            {% if user.is_authenticated %}
+                <a class="btn btn-cyber btn-sm" href="{% url 'posts:create' %}">
+                    <i class="fas fa-plus"></i> New Post
+                </a>
+                <a href="{% url 'posts:for_user' username=user.username %}" title="@{{ user.username }}">
+                    <span class="avatar avatar-sm">{{ user.username|first }}</span>
+                </a>
+                <form method="post" action="{% url 'accounts:logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="nav__link nav__logout" title="Log out">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </form>
+            {% else %}
+                <a class="nav__link" href="{% url 'accounts:login' %}">Log in</a>
+                <a class="btn btn-cyber btn-sm" href="{% url 'accounts:signup' %}">Sign up</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="main-content-wrapper">
+        {% if messages %}
+        <div class="container" style="padding-top: 14px;">
+            {% for message in messages %}
+            <div class="space-card compact mb-1" style="border-color: var(--glass-border-glow);">
+                <i class="fas fa-circle-info text-cyan"></i> {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="{% static 'simplesocial/js/master.js' %}"></script>
+</body>
+</html>
