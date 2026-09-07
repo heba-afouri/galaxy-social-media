@@ -2,3 +2,4 @@ Django==3.2.25
 django-bootstrap4==24.1
 django-braces==1.17.0
 misaka==2.1.1
+gunicorn
