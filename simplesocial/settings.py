@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['https://onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://galaxy-social-media.onrender.com']
 
 
 # Application definition
